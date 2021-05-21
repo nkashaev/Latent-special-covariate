@@ -1,14 +1,30 @@
-using CSV, DataFrames
-using LinearAlgebra
-#using Optim
-using Convex, ECOS
-using Random
-using Distributions, Statistics
-using ForwardDiff
-########################### Dir ################################################
-rootdir="/Users/SSC4044-iMac27/Dropbox/PSU/Research/Random COeff/Simulations/Julia"
-dirfunc=rootdir*"/functions"
-dirresults=rootdir*"/results"
+using Distributed
+using Statistics
+using DataFrames, CSV
+addprocs(7)
+
+@everywhere begin
+  using Random
+  using Distributions
+  using ForwardDiff
+  using Combinatorics
+  using LinearAlgebra
+  using JuMP
+  using Gurobi
+  using KNITRO
+end
+## Defining the file directories
+tempdir1=@__DIR__
+rootdir=tempdir1[1:findfirst("Random-Coeff",tempdir1)[end]]
+sim1dir=rootdir*"/Simulations/sim1"
+sim1results=sim1dir*"/results"
+
+## Functions
+@everywhere include($(sim1dir)*"/functions_common_sim1.jl")
+
+
+#using Convex, ECOS
+
 ########################### Functions ##########################################
 include(dirfunc*"/dgp.jl")
 include(dirfunc*"/sieve_functions.jl")
