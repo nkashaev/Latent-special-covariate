@@ -18,15 +18,16 @@ using CSV, DataFrames
     ## ######################### Functions #########################################
     include(dir*"common_functions.jl")
 end
-order1=5; order2=5;
+order=4
+order1=order; order2=order;
 Pol, DPol1, DPol2, DPol12, DPol11, DPol22, DPol111, DPol112=polyn(order1,order2);
 ## ######################### Parameters #########################################
 @everywhere begin
     #disz="uniform"
     disz="normal"
-    disg="logistic"
+    #disg="logistic"
     #disg="normal"
-    #disg="mixturenormal"
+    disg="mixturenormal"
     t=0.0
     param=[-0.5,1.0,0.5,t]
     sampsize=10000
@@ -40,5 +41,6 @@ Bias[:,2]=[Result[i][2] .- param[2] for i=1:1000];
 Bias[:,3]=[Result[i][3] .- param[2] for i=1:1000];
 Bias[:,4]=[Result[i][4] .- param[2] for i=1:1000];
 
-CSV.write(dirresults*"bias_np_$(sampsize)_$(disz)_$(disg)_$(param[4]).csv", DataFrame(Bias,:auto))
+CSV.write(dirresults*"bias_np_$(order1)_$(order2)_$(sampsize)_$(disz)_$(disg)_$(param[4]).csv", DataFrame(Bias,:auto))
+
 
