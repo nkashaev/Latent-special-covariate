@@ -46,5 +46,11 @@ xdata=hcat(z1,z21-z24,z22-z24,z23-z24,z25-z24) # z24 -- price of Generic
 func2(vars) = -LogitL(ydata, xdata, vars);
 opt = optimize(func2, -0.1*ones(7))
 sol=Optim.minimizer(opt)
-se=sqrt.(diag(ForwardDiff.hessian(func2, sol))./length(ydata)^2)
+V=ForwardDiff.hessian(func2, sol)./length(ydata)
+V=V[1:3,1:3]
+beta0_param=sol[1]*exp(-sol[3])
+beta1_param=sol[2]*exp(-sol[3])
+se_beta1_param=sqrt([0.0,exp(-sol[3]),-sol[2]*exp(-sol[3])]'*V*[0.0, exp(-sol[3]),-sol[2]*exp(-sol[3])]/length(ydata))
+se_beta0_param=sqrt([exp(-sol[3]), 0.0, -sol[1]*exp(-sol[3])]'*V*[exp(-sol[3]), 0.0, -sol[1]*exp(-sol[3])]/length(ydata))
+se=sqrt.(abs.(diag(ForwardDiff.hessian(func2, sol))./length(ydata)^2))
 
