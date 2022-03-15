@@ -1,6 +1,6 @@
 # This function returns a tensor product of Chebyshev polynomials
-# of order1 and order 2. scale_ap and shift_ap are used to adjust
-# for the actuall support of z
+# of order1 and order2. 
+# scale_ap and shift_ap are used to adjust for the actuall support of z
 function Cheb2_func_gen_app(order1,order2,scale_ap,shift_ap)
     sieve_func=Array{Function}(undef,Int64((order2+1)^4*(order1+1)))
     T=Array{Function}(undef,maximum([order1,order2])+1)
@@ -57,7 +57,7 @@ end
 function betasign1(f1,xdata)
     signbeta=0.0
     # I need to call to global variables since f1 implicitly takes x2_all as
-    # an argument. See the definition of f1 (line 48 of this file)
+    # an argument. See the definition of f1 (line 46 of this file)
     for i=1:n
         global x1=xdata[i,1]
         global x2_all=xdata[i,2:end]
@@ -94,7 +94,7 @@ function beta_coeff_app(f1,f2,f11,f12,f111,xdata,signbeta1)
     end
 end
 
-# This function compute the derivatives of polynomials.
+# This function computes the derivatives of polynomials.
 function derivativesofsieves(sieve_func)
     sfunc1=Array{Function}(undef,length(sieve_func))
     sfunc11=Array{Function}(undef,length(sieve_func))

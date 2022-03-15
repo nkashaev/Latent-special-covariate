@@ -1,9 +1,5 @@
-#Main file for simulations with full estimator
-# tempdir1=@__DIR__
-# rootdir=tempdir1[1:findfirst("HiddenMenus",tempdir1)[end]]
-# cd(rootdir*"/Environment/Mac")
-# using Pkg
-# Pkg.activate(".")
+using Pkg
+Pkg.activate(".")
 
 using Distributed
 addprocs(7)
@@ -13,7 +9,7 @@ using CSV, DataFrames
     ## ######################### Dir ################################################
     tempdir1=@__DIR__
     rootdir=tempdir1[1:findfirst("Random-Coeff",tempdir1)[end]]
-    dir=rootdir*"/Simulations/np estimator/"
+    dir=rootdir*"/Simulations/semiparametric estimator/"
     dirresults=dir*"Results/"
     ## ######################### Functions #########################################
     include(dir*"common_functions.jl")

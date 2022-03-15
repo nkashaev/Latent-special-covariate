@@ -25,13 +25,8 @@ function DGP(sampsize,param,seed,disz,disg)
     return y, z
 end
 
-
-#ncdf(x)=(1.0+erf(x/sqrt(2.0)))/2.0  # Normal CDF
- lcdf(x)=1.0/(1.0+exp(-x))           # Logistic CDF
-# ucdf(x)=x                           # Uniform CDF
- npdf(x)=exp(-x^2/2.0)/sqrt(2.0*pi)  # Normal PDF
-# lpdf(x)=exp(-x)/(1.0+exp(-x))^2     # Logistic PDF
-# updf(x)=1.0                         # Uniform PDF
+lcdf(x)=1.0/(1.0+exp(-x))           # Logistic CDF
+npdf(x)=exp(-x^2/2.0)/sqrt(2.0*pi)  # Normal PDF
 
 function LogitL(y,z,theta)
     beta0=theta[1]
@@ -56,18 +51,3 @@ function oneSim(seed)
     opt = optimize(func2, 0.1*ones(4))
     return Optim.minimizer(opt), Optim.minimum(opt)
 end
-
-# function oneSimJ(seed)
-#     y,z=DGP(sampsize,param,seed,disz,disg)
-#     model = Model(KNITRO.Optimizer)
-#     set_optimizer_attribute(model,"outlev",0)              # Turning off the ouput
-#     register(model, :ncdf, 1, ncdf; autodiff = true)
-#     set_optimizer_attribute(model,"ms_enable",1)      # Multistart option
-#     @variable(model, theta[1:4])
-#     set_start_value.(theta[1:4], vcat(param[1:3],0.0))
-#     @NLobjective(model, Max, sum( y[i]*log(ncdf(((theta[1]+theta[2]*z[i,1])*z[i,2] - theta[3])/sqrt(exp(theta[4])+z[i,2]^2)))+(1.0 - y[i])*log(1.0 - ncdf(((theta[1]+theta[2]*z[i,1])*z[i,2] - theta[3])/sqrt(exp(theta[4])+z[i,2]^2))) for i = 1:length(y)))
-#     optimize!(model)
-
-#     return JuMP.value.(theta), JuMP.objective_value(model)
-# end
-

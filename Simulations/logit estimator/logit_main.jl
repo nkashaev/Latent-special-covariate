@@ -1,9 +1,5 @@
-#Main file for simulations with full estimator
-# tempdir1=@__DIR__
-# rootdir=tempdir1[1:findfirst("HiddenMenus",tempdir1)[end]]
-# cd(rootdir*"/Environment/Mac")
-# using Pkg
-# Pkg.activate(".")
+using Pkg
+Pkg.activate(".")
 
 using Distributed
 addprocs(7)
