@@ -1,4 +1,3 @@
-
 using Pkg
 Pkg.activate(".")
 
@@ -6,7 +5,7 @@ using CSV, DataFrames
 using Distributions, Random, LinearAlgebra, Plots
 tempdir1=@__DIR__
 rootdir=tempdir1[1:findfirst("Random-Coeff",tempdir1)[end]]
-dir=rootdir*"/Simulations/np estimator/"
+dir=rootdir*"/Simulations/semiparametric estimator/"
 dirresults=dir*"Results/"
 ## ######################### Parameters #########################################
 disz="normal"
