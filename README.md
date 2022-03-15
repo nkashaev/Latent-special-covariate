@@ -16,9 +16,6 @@ modeling. Journal of Applied Econometrics, 31(7):1445–1466. <https://doi.org/1
 Software
 ========
 
-First Application, Appendices B,E, and F
-----------------------------------------
-
 A version 1.6.4 of the `Julia` programming language was used in coding the analysis files. For details about how to install `Julia` on different platforms and make `Julia` programs executable from the command line see <https://julialang.org/downloads/platform/>. After installation of `Julia 1.6.4.` run `using Pkg` and `Pkg.instantiate()` in the `Julia` terminal after setting the replication folder as the main one.
 
 Hardware
@@ -36,7 +33,7 @@ Content
 -   `Manifest.toml` and `Project.toml`  -- toml files with all necessary `Julia` packages.
 
 
-Below we describe the content of every folder.
+Below I describe the content of every folder.
 
 `Applicaton`
 ============
