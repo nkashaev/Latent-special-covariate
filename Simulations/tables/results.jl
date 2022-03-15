@@ -28,7 +28,7 @@ for i in 1:3
     TabMADnp[7,i]=mean(abs.(Bias[:,1]))
 end
 CSV.write(rootdir*"/Simulations/tables/Table1.csv", DataFrame(TabMeannp',:auto))
-CSV.write(rootdir*"/Simulations/tables/Table2.csv", DataFrame(TabMADnp',:auto))
+CSV.write(rootdir*"/Simulations/tables/Table3.csv", DataFrame(TabMADnp',:auto))
 
 dir=rootdir*"/Simulations/probit estimator/"
 dirresults=dir*"Results/"
@@ -44,7 +44,7 @@ end
 Bias=Matrix(CSV.read(dirresults*"biasKN_probit_$(sampsize)_$(disz)_logistic_0.0.csv", DataFrame))
 TabProbit[7,1]=mean(Bias)
 TabProbit[7,2]=mean(abs.(Bias))
-CSV.write(rootdir*"/Simulations/tables/Table3.csv", DataFrame(TabProbit',:auto))
+CSV.write(rootdir*"/Simulations/tables/Table4.csv", DataFrame(TabProbit',:auto))
 
 dir=rootdir*"/Simulations/logit estimator/"
 dirresults=dir*"Results/"
@@ -60,4 +60,4 @@ end
 Bias=Matrix(CSV.read(dirresults*"bias_logit_$(sampsize)_$(disz)_logistic_0.0.csv", DataFrame))
 TabLogit[7,1]=mean(Bias)
 TabLogit[7,2]=mean(abs.(Bias))
-CSV.write(rootdir*"/Simulations/tables/Table4.csv", DataFrame(TabLogit',:auto))
+CSV.write(rootdir*"/Simulations/tables/Table5.csv", DataFrame(TabLogit',:auto))

@@ -1,19 +1,11 @@
-# Common functions
-
-function DGP(sampsize,param,seed,disz,disg)
+function DGP(sampsize,param,seed,disg)
     Random.seed!(seed)
     e=randn(Float64,sampsize)
-    if disz=="normal"
-        Sigma_chol=cholesky(0.90*[1.0 0.0; 0.0 1.0]+0.10*ones(2,2))
-        gz=randn(Float64,(sampsize,2))
-        z=5*(atan.(gz*Sigma_chol.L')*1/pi.+0.5)
-    elseif disz=="uniform" 
-        z=5*rand(Float64,(sampsize,2))
-    end
+    Sigma_chol=cholesky(0.90*[1.0 0.0; 0.0 1.0]+0.10*ones(2,2))
+    gz=randn(Float64,(sampsize,2))
+    z=5*(atan.(gz*Sigma_chol.L')*1/pi.+0.5)
 
-    if disg=="normal"
-        g=randn(sampsize) .+ param[3]
-    elseif disg=="mixturenormal"
+    if disg=="mixturenormal"
         g=Random.rand(MixtureModel(Normal, [(-param[4], 1.0), (0.0, 1.0), (param[4], 1.0)]),sampsize) .+ param[3]
     elseif disg=="logistic"
         g=Random.rand(Logistic(0,param[4]+1.0),sampsize) .+ param[3]
@@ -27,11 +19,6 @@ end
 
 
 ncdf(x)=(1.0+erf(x/sqrt(2.0)))/2.0  # Normal CDF
-# lcdf(x)=1.0/(1.0+exp(-x))           # Logistic CDF
-# ucdf(x)=x                           # Uniform CDF
-# npdf(x)=exp(-x^2/2.0)/sqrt(2.0*pi)  # Normal PDF
-# lpdf(x)=exp(-x)/(1.0+exp(-x))^2     # Logistic PDF
-# updf(x)=1.0                         # Uniform PDF
 
 function ProbitL(y,z,theta)
     beta0=theta[1]
@@ -49,15 +36,15 @@ function ProbitL(y,z,theta)
 end
 
 
-function oneSim(seed)
-    y,z=DGP(sampsize,param,seed,disz,disg)
-    func = TwiceDifferentiable(vars -> -ProbitL(y, z, vars), ones(4); autodiff=:forward);
-    opt = optimize(func, ones(4))
-    return Optim.minimizer(opt), Optim.minimum(opt)
-end
+# function oneSim(seed)
+#     y,z=DGP(sampsize,param,seed,disz,disg)
+#     func = TwiceDifferentiable(vars -> -ProbitL(y, z, vars), ones(4); autodiff=:forward);
+#     opt = optimize(func, ones(4))
+#     return Optim.minimizer(opt), Optim.minimum(opt)
+# end
 
 function oneSimJ(seed)
-    y,z=DGP(sampsize,param,seed,disz,disg)
+    y,z=DGP(sampsize,param,seed,disg)
     model = Model(KNITRO.Optimizer)
     set_optimizer_attribute(model,"outlev",0)              # Turning off the ouput
     register(model, :ncdf, 1, ncdf; autodiff = true)

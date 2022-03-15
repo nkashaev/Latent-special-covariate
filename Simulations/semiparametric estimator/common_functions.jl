@@ -1,19 +1,11 @@
-# Common functions
-
-function DGP(sampsize,param,seed,disz,disg)
+function DGP(sampsize,param,seed,disg)
     Random.seed!(seed)
     e=randn(Float64,sampsize)
-    if disz=="normal"
-        Sigma_chol=cholesky(0.90*[1.0 0.0; 0.0 1.0]+0.10*ones(2,2))
-        gz=randn(Float64,(sampsize,2))
-        z=5*(atan.(gz*Sigma_chol.L')*1/pi.+0.5)
-    elseif disz=="uniform" 
-        z=5*rand(Float64,(sampsize,2))
-    end
+    Sigma_chol=cholesky(0.90*[1.0 0.0; 0.0 1.0]+0.10*ones(2,2))
+    gz=randn(Float64,(sampsize,2))
+    z=5*(atan.(gz*Sigma_chol.L')*1/pi.+0.5)
 
-    if disg=="normal"
-        g=randn(sampsize) .+ param[3]
-    elseif disg=="mixturenormal"
+    if disg=="mixturenormal"
         g=Random.rand(MixtureModel(Normal, [(-param[4], 1.0), (0.0, 1.0), (param[4], 1.0)]),sampsize) .+ param[3]
     elseif disg=="logistic"
         g=Random.rand(Logistic(0,param[4]+1.0),sampsize) .+ param[3]
@@ -71,7 +63,7 @@ function polyn(order1,order2)
 end
 
 function oneSim(seed)
-    y,x=DGP(sampsize,param,seed,disz,disg)
+    y,x=DGP(sampsize,param,seed,disg)
     X=zeros(length(y),length(Pol))
     for i in 1:length(y), j in 1:length(Pol)
         X[i,j]=Pol[j](x[i,:])
@@ -93,6 +85,7 @@ function oneSim(seed)
 
     b1=sum( (phat111(x[i,:])*phat1(x[i,:])-phat11(x[i,:])^2)/(x[i,2]*phat12(x[i,:])*phat1(x[i,:])-x[i,2]*phat2(x[i,:])*phat11(x[i,:])-phat1(x[i,:])^2) for i in 1:size(x,1))/size(x,1)
     b2=sum( (phat112(x[i,:])*phat1(x[i,:])-phat12(x[i,:])*phat11(x[i,:]))/(phat1(x[i,:])*phat2(x[i,:])-x[i,2]*phat22(x[i,:])*phat11(x[i,:])-x[i,2]*phat2(x[i,:])*phat12(x[i,:])) for i in 1:size(x,1))/size(x,1)
+    # Record 4 different ways to estimate beta by using different averaging schemes
     return sqrt(abs(num1/denum1)), sqrt(abs(num2/denum2)), sqrt(abs(b1)), sqrt(abs(b2))
 end
 
