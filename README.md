@@ -8,7 +8,7 @@ nkashaev@uwo.ca
 Data Sources
 ============
 
-The paper uses one data sets from
+The paper uses one data set from
 
 -   Benoit, D. F., Van Aelst, S., and Van den Poel, D. (2016). Outlier-robust bayesian multinomial choice
 modeling. Journal of Applied Econometrics, 31(7):1445–1466. <https://doi.org/10.1002/jae.2482>
@@ -37,7 +37,7 @@ Content
 
 Below I describe the content of every folder.
 
-`Applicaton`
+`Application`
 ============
 
 `data`
@@ -98,7 +98,7 @@ This folder constains simulation results used in construction of Table 5 on page
 
 `semiparametric estimator`
 -----------
-This folder constains simulation results used in construction of Tables 1 and 3 on pages 16 and 35.
+This folder contains simulation results used in the construction of Tables 1 and 3 on pages 16 and 35.
 -    `Results` -- csv files with simulation results
 
 -   `common_functions.jl`  -- the functions used in simulations.
